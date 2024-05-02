@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-function HomePage() {
+function LandingPage() {
   return (
     <div style={{ textAlign: 'center', margin: '50px' }}>
       <h1>Welcome to Upstream</h1>
@@ -14,4 +13,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default LandingPage;
