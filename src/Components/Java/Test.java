@@ -14,7 +14,8 @@ public class Test
     public static int integral_calculator()
     {
 
-
+        int user_intergrated = 1;
+        return user_intergrated;
         
     }
 }

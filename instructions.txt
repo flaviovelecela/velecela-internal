@@ -1,0 +1,16 @@
+https://learn.microsoft.com/en-us/java/openjdk/download#openjdk-21
+
+--------------------------------------------------------------
+
+WINDOWS
+
+https://aka.ms/download-jdk/microsoft-jdk-21.0.3-windows-aarch64.zip
+
+
+--------------------------------------------------------------
+
+
+MAC
+
+https://aka.ms/download-jdk/microsoft-jdk-21.0.3-macos-aarch64.pkg
+
