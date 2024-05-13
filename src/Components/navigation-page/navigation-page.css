@@ -1,0 +1,52 @@
+/* basicExample.css */
+
+/* Styles for the Navbar */
+.bg-body-tertiary {
+    background-color: #f8f9fa; /* Light grey background */
+    padding: 0.5px; /* Add some padding for comfy feel */
+  }
+  
+  .navbar-brand {
+    font-family: 'Comic Sans MS', cursive; /* Use Comic Sans MS font for comfy vibe */
+  }
+  
+  .navbar-nav .nav-link {
+    color: #495057; /* Dark grey text color */
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #343a40; /* Darker grey text color on hover */
+  }
+  
+  .navbar-nav .nav-link.active {
+    color: #007bff; /* Blue color for active link */
+  }
+  
+  .nav-item {
+    margin-right: 15px; /* Add some margin between navigation items */
+  }
+  
+  .navbar-nav .nav-item:last-child {
+    margin-right: 0; /* Remove margin for the last navigation item */
+  }
+  
+  /* Styles for the dropdown menu */
+  .dropdown-menu {
+    background-color: #ffffff; /* White background for dropdown menu */
+    border: 1px solid rgba(0, 0, 0, 0.15); /* Light border */
+  }
+  
+  .dropdown-item {
+    color: #495057; /* Dark grey text color */
+  }
+  
+  .dropdown-item:hover,
+  .dropdown-item:focus {
+    color: #343a40; /* Darker grey text color on hover/focus */
+    background-color: #f8f9fa; /* Light grey background on hover/focus */
+  }
+  
+  .dropdown-divider {
+    border-top: 1px solid rgba(0, 0, 0, 0.15); /* Light border for dropdown divider */
+  }
+  
