@@ -8,6 +8,7 @@ In the project directory, you can run:
 
 ### `npm install`
 ### `npm install react-icons`
+### `npm install bootstrap @popperjs/core`
 ### `npm start`
 
 Runs the app in the development mode.\

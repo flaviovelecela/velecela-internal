@@ -3,6 +3,7 @@ import './App.css'
 import LandingPage from './Components/landing-page/landing-page';
 import Navbar from './Components/navigation-page/navigation';
 import TestPage from './Components/webpages/test/test';
+import PhotoGallery from './Components/webpages/gallery/photo-gallery';
 
 import {
   BrowserRouter as Router,
@@ -20,6 +21,7 @@ function App() {
           <Route path='*' element={<LandingPage />} />
           <Route path='/' exact={true} element={<LandingPage />} />
           <Route path='/test' element={<TestPage />} />
+          <Route path='/gallery' element={<PhotoGallery />} />
         </Routes>
       </Router>
     </div>
