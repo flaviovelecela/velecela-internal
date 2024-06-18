@@ -5,10 +5,11 @@ import Navbar from './Components/navigation-page/navigation';
 import TestPage from './Components/webpages/test/test';
 import PhotoGallery from './Components/webpages/gallery/photo-gallery';
 import Login from './Components/webpages/login/login';
-import Register from './Components/webpages/login/register';
-import userPage from './Components/webpages/user/home';
+// import Register from './Components/webpages/login/register';
+import UserPage from './Components/webpages/user/home';
+import PrivateRoute from './Components/Routing/privateroutes'; // Make sure this path is correct
 
-import { AuthProvider } from './Context/AuthContext'; // Ensure the path is correct
+import { AuthProvider } from './Components/Context/AuthContext';
 
 import {
   BrowserRouter as Router,
@@ -20,16 +21,18 @@ function App() {
   return (
     <div>
       <Router>
-        <AuthProvider> {/* Wrap the components inside Router with AuthProvider */}
+        <AuthProvider>
           <Navbar />
           <Routes>
             <Route path='*' element={<LandingPage />} />
-            <Route path='/' element={<LandingPage />} /> {/* Removed exact as it's unnecessary in React Router v6 */}
+            <Route path='/' element={<LandingPage />} />
             <Route path='/test' element={<TestPage />} />
             <Route path='/gallery' element={<PhotoGallery />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='userPage' element={<userPage />} />
+            {/* <Route path='/register' element={<Register />} /> */}
+            <Route element={<PrivateRoute />}>
+              <Route path='/userPage' element={<UserPage />} />
+            </Route>
           </Routes>
         </AuthProvider>
       </Router>

@@ -46,7 +46,7 @@ function Login() {
           />
         </div>
         <button type="submit" className="btn btn-primary">Login</button>
-        <button type="button" className="btn btn-secondary" onClick={() => navigate('/register')}>Register</button>
+        {/*<button type="button" className="btn btn-secondary" onClick={() => navigate('/register')}>Register</button>*/}
       </form>
     </div>
   );

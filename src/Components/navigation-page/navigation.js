@@ -1,11 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../Context/AuthContext';
+import { useAuth } from '../Context/AuthContext';
+import { signOut } from 'firebase/auth'; // Ensure this import works after fixing Firebase setup
+import { auth } from '../Firebase/firebase-config';
 
 function Navigation() {
   const { currentUser } = useAuth();
 
-  // Function to prevent navigation
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      alert("You have successfully signed out.");
+    } catch (error) {
+      console.error("Sign Out Error:", error);
+      alert("Failed to sign out.");
+    }
+  };
+
   const handleDisabledClick = (event) => {
     if (!currentUser) {
       event.preventDefault();
@@ -26,7 +37,11 @@ function Navigation() {
               <Link className="nav-link active" aria-current="page" to="/">Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/login">Login/Register</Link>
+              {currentUser ? (
+                <button className="nav-link btn btn-link" onClick={handleSignOut}>Sign Out</button>
+              ) : (
+                <Link className="nav-link" to="/login">Login</Link>
+              )}
             </li>
             <li className="nav-item dropdown">
               <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -40,7 +55,9 @@ function Navigation() {
               </ul>
             </li>
             <li className="nav-item">
-              <Link className={`nav-link ${!currentUser ? 'disabled' : ''}`} onClick={handleDisabledClick} to="/userPage">Disabled</Link>
+              <Link className={`nav-link ${!currentUser ? 'disabled' : ''}`} onClick={handleDisabledClick} to="/userPage">
+                {currentUser ? 'User Page' : 'Disabled'}
+              </Link>
             </li>
           </ul>
           <form className="d-flex" role="search">

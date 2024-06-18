@@ -7,6 +7,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 In the project directory, you can run:
 
 ### `npm install`
+### `npm install firebase`
+### `npm install hls.js`
 ### `npm install react-icons`
 ### `npm install bootstrap @popperjs/core`
 ### `npm start`
