@@ -1,0 +1,6 @@
+.nav-link.disabled {
+    color: #ccc; /* Gray out the link */
+    pointer-events: none; /* Prevent click events */
+    cursor: default; /* Show default cursor instead of pointer */
+  }
+  
