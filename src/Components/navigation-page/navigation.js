@@ -49,14 +49,14 @@ function Navigation() {
               </Link>
               <ul className="dropdown-menu">
                 <li><Link className="dropdown-item" to="#">Action</Link></li>
-                <li><Link className="dropdown-item" to="/test">Test Page</Link></li>
+                <li><Link className="dropdown-item" to="/calculator">Calculator</Link></li>
                 <li><hr className="dropdown-divider"></hr></li>
                 <li><Link className="dropdown-item" to="/gallery">Photo Gallery</Link></li>
               </ul>
             </li>
             <li className="nav-item">
-              <Link className={`nav-link ${!currentUser ? 'disabled' : ''}`} onClick={handleDisabledClick} to="/userPage">
-                {currentUser ? 'User Page' : 'Disabled'}
+              <Link className={`nav-link ${!currentUser ? 'disabled' : ''}`} onClick={handleDisabledClick} to="/movies">
+                {currentUser ? 'Movies' : 'Disabled'}
               </Link>
             </li>
           </ul>

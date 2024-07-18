@@ -12,6 +12,14 @@ In the project directory, you can run:
 ### `npm install react-icons`
 ### `npm install bootstrap @popperjs/core`
 ### `npm start`
+### `npm install katex` //This is for formatting of the display result used in both Test.py and test.js
+
+npm install react-mathquill
+
+For python I installed:
+
+*Flask (py -m pip install Flask)
+*SymPy (py -m pip install sympy)
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.

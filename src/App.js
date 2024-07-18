@@ -1,15 +1,20 @@
 import './App.css';
 
-import LandingPage from './Components/landing-page/landing-page';
+import LandingPage from './Components/webpages/home-page/landing-page';
 import Navbar from './Components/navigation-page/navigation';
-import TestPage from './Components/webpages/test/test';
+import Calculator from './Components/webpages/test/calculator';
 import PhotoGallery from './Components/webpages/gallery/photo-gallery';
 import Login from './Components/webpages/login/login';
 // import Register from './Components/webpages/login/register';
-import UserPage from './Components/webpages/user/home';
-import PrivateRoute from './Components/Routing/privateroutes'; // Make sure this path is correct
 
+
+//Authentication
+import PrivateRoute from './Components/Routing/privateroutes';
 import { AuthProvider } from './Components/Context/AuthContext';
+
+//Movie Display
+import MoviePlayer from './Components/webpages/user/MoviePlayer';
+import MovieDisplay from './Components/webpages/movies/MovieDisplay';
 
 import {
   BrowserRouter as Router,
@@ -26,12 +31,13 @@ function App() {
           <Routes>
             <Route path='*' element={<LandingPage />} />
             <Route path='/' element={<LandingPage />} />
-            <Route path='/test' element={<TestPage />} />
+            <Route path='/calculator' element={<Calculator />} />
             <Route path='/gallery' element={<PhotoGallery />} />
             <Route path='/login' element={<Login />} />
             {/* <Route path='/register' element={<Register />} /> */}
             <Route element={<PrivateRoute />}>
-              <Route path='/userPage' element={<UserPage />} />
+              <Route path='/movies' element={<MoviePlayer />} />
+              <Route path='/movies/:movieId' element={<MovieDisplay/>} />
             </Route>
           </Routes>
         </AuthProvider>
