@@ -1,0 +1,4 @@
+api.velecela.org {
+    tls "C:\Users\flavi\OneDrive\Escritorio\VS Code Repos\velecela-internal\origin.pem" "C:\Users\flavi\OneDrive\Escritorio\VS Code Repos\velecela-internal\origin-key.pem"
+    reverse_proxy localhost:5000
+}

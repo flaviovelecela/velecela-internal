@@ -1,0 +1,25 @@
+.skydiving-container {
+    text-align: center;
+    margin-top: 20px;
+    border-top: 2px solid #ccc;
+    border-bottom: 2px solid #ccc;
+    padding: 20px 0;
+}
+
+.skydiving-title {
+    font-size: 24px;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.video-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.video {
+    flex: 1 1 32%; /* Adjusts each video to take about one-third of the container width */
+    margin: 5px;
+    height: auto; /* Maintains aspect ratio */
+}

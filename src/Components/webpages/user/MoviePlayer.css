@@ -1,0 +1,55 @@
+.container {
+  text-align: center;
+  margin: 50px;
+}
+
+.movie-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers the movie cards vertically */
+  gap: 20px;
+}
+
+.movie-card {
+  cursor: pointer;
+  padding: 20px;
+  width: 80%; /* Set a specific width for each card */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.2s; /* Added box-shadow transition */
+  background: #f9f9f9; /* Background color for better contrast */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for non-hover state */
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* More prominent shadow on hover */
+}
+
+.video-modal {
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  right: 10%;
+  bottom: 10%;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 1000; /* Ensure modal is on top */
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 24px; /* Larger close button */
+}
+
+.movie-title {
+  font-size: 1.2em; /* Larger font size for movie titles */
+  color: #333; /* Darker color for better readability */
+}
