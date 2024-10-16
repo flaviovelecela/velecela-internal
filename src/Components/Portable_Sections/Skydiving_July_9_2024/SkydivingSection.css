@@ -1,25 +1,57 @@
-.skydiving-container {
+.carousel-container {
     text-align: center;
-    margin-top: 20px;
-    border-top: 2px solid #ccc;
-    border-bottom: 2px solid #ccc;
-    padding: 20px 0;
+    margin: 50px;
 }
 
-.skydiving-title {
-    font-size: 24px;
-    color: #444;
-    margin-bottom: 20px;
-}
-
-.video-container {
+.carousel {
     display: flex;
+    align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
+    position: relative;
+    max-width: 800px; /* Adjust as per your page width */
+    margin: 0 auto;
 }
 
-.video {
-    flex: 1 1 32%; /* Adjusts each video to take about one-third of the container width */
-    margin: 5px;
-    height: auto; /* Maintains aspect ratio */
+.carousel-video {
+    width: 100%;
+}
+
+.carousel-arrow {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.left-arrow {
+    left: 10px;
+}
+
+.right-arrow {
+    right: 10px;
+}
+
+.carousel-dots {
+    margin-top: 10px;
+}
+
+.dot {
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    background-color: #bbb;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dot.active {
+    background-color: #717171;
 }

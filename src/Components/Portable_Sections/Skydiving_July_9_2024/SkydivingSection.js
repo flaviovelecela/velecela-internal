@@ -1,60 +1,61 @@
-import React, { useEffect, useRef } from 'react';
-import Hls from 'hls.js';
-import './SkydivingSection.css';
+import React, { useState } from 'react';
+import DynamicBitratePlayer from '../../DynamicBitratePlayer/DynamicBitratePlayer'; // Assuming the component is in the same directory
+import './SkydivingSection.css'; // Add some styles for the carousel
 
-function SkydivingSection() {
-    const videoRefs = useRef([]);
-
+function SkydivingCarousel() {
+    const [activeIndex, setActiveIndex] = useState(0); // Track the active video index
     const videoSources = [
-        "/Videos/Skydiving_July_9_2024/flavio_jr/master_playlist.m3u8",
-        "/Videos/Skydiving_July_9_2024/flavio_sr/master_playlist.m3u8",
-        "/Videos/Skydiving_July_9_2024/rafael/master_playlist.m3u8"
+        "/Videos/Skydiving_July_9_2024/Flavio's Skydiving Jump/master.m3u8",
+        "/Videos/Skydiving_July_9_2024/Flavio Sr's Sky Diving/master.m3u8",
+        "/Videos/Skydiving_July_9_2024/Rafael's Jump/master.m3u8"
     ];
 
-    useEffect(() => {
-        const hlsInstances = videoRefs.current.map((video, index) => {
-            if (video && Hls.isSupported()) {
-                const hls = new Hls();
-                hls.loadSource(videoSources[index]);
-                hls.attachMedia(video);
+    const handleNext = () => {
+        setActiveIndex((prevIndex) => (prevIndex + 1) % videoSources.length);
+    };
 
-                hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    // Log level details
-                    console.log(`Initial level loaded for video ${index}:`, hls.levels[hls.firstLevel]);
-                    // Try forcing the level to 1080p on manifest parsed
-                    const levelIndex1080p = hls.levels.findIndex(level => level.height === 1080);
-                    if (levelIndex1080p !== -1) {
-                        hls.currentLevel = levelIndex1080p;
-                        console.log(`Forced level to 1080p for video ${index}:`, hls.levels[levelIndex1080p]);
-                    }
-                    // Confirm current level after setting
-                    console.log(`Current level after setting for video ${index}:`, hls.currentLevel, hls.levels[hls.currentLevel]);
-                });
+    const handlePrev = () => {
+        setActiveIndex((prevIndex) => (prevIndex - 1 + videoSources.length) % videoSources.length);
+    };
 
-                return hls;
-            }
-            return null;
-        });
-
-        return () => {
-            hlsInstances.forEach(hls => {
-                if (hls) {
-                    hls.destroy();
-                }
-            });
-        };
-    }, []); // No dependencies, run once on mount
+    const handleDotClick = (index) => {
+        setActiveIndex(index);
+    };
 
     return (
-        <div className="skydiving-container">
+        <div className="carousel-container">
+            <hr className="section-divider" /> {/* Top divider */}
             <h2 className="skydiving-title">Skydiving Time!</h2>
-            <div className="video-container">
-                {videoSources.map((source, index) => (
-                    <video key={index} ref={el => videoRefs.current[index] = el} controls style={{ width: '32%', margin: '1%' }} />
+            <div className="carousel">
+                {/* Left Arrow */}
+                <button className="carousel-arrow left-arrow" onClick={handlePrev}>
+                    &lt;
+                </button>
+
+                {/* Dynamic Video Player for the Active Video */}
+                <div className="carousel-video">
+                    <DynamicBitratePlayer videoSource={videoSources[activeIndex]} selectedLevel="auto" />
+                </div>
+
+                {/* Right Arrow */}
+                <button className="carousel-arrow right-arrow" onClick={handleNext}>
+                    &gt;
+                </button>
+            </div>
+
+            {/* Dots (Indicators) */}
+            <div className="carousel-dots">
+                {videoSources.map((_, index) => (
+                    <span
+                        key={index}
+                        className={`dot ${index === activeIndex ? 'active' : ''}`}
+                        onClick={() => handleDotClick(index)}
+                    ></span>
                 ))}
             </div>
+            <hr className="section-divider" /> {/* Bottom divider */}
         </div>
     );
 }
 
-export default SkydivingSection;
+export default SkydivingCarousel;

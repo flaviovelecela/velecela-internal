@@ -1,25 +1,23 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import Hls from 'hls.js';
+import DynamicBitratePlayer from '../../DynamicBitratePlayer/DynamicBitratePlayer';
 
 function MovieDisplay() {
-  const { movieId } = useParams();
-  const videoRef = useRef(null);
-  const movieUrl = `/Movies/${movieId}/1080p/output.m3u8`; // Construct the video URL based on movieId
+  const { movieId } = useParams();  // Get movie ID from route (e.g., Howl's Moving Castle)
+  
+  // Path to the HLS master playlist for the movie (change this as necessary for different resolutions)
+  const movieUrl = `/Movies/${encodeURIComponent(movieId)}/1080p/output.m3u8`;
 
-  useEffect(() => {
-    if (videoRef.current && Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(movieUrl);
-      hls.attachMedia(videoRef.current);
-      return () => hls.destroy();
-    }
-  }, [movieUrl]);
+  // Path to the subtitles file for the movie (WebVTT format)
+  const subtitleUrl = `/Movies/${encodeURIComponent(movieId)}/Howl's Moving Castle Subtitles.vtt`;  // Subtitle file location
 
   return (
     <div>
       <h1>Now Playing: {movieId}</h1>
-      <video ref={videoRef} controls style={{ width: '100%' }} />
+      <DynamicBitratePlayer
+        videoSource={movieUrl}         // HLS master playlist
+        subtitleSource={subtitleUrl}   // Subtitles file
+      />
     </div>
   );
 }

@@ -1,5 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 /.pnp
@@ -20,9 +18,17 @@
 origin-key.pem
 origin.pem
 
+# log files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# media files
 public/Videos/
 public/Movies
 
+# environment files
+.env.development
+.env.production
+
+# Optional: Add .env.example to provide the env file structure

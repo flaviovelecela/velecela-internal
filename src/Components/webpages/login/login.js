@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from '../../Firebase/firebase-config';
+import { auth, db } from '../../Firebase/firebase-config';
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -11,7 +12,24 @@ function Login() {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Check if user document exists in Firestore
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (!userDoc.exists()) {
+        // If the user document doesn't exist, create it with a default role
+        await setDoc(userDocRef, {
+          email: user.email,
+          role: 'user' // Set default role to 'user'
+        });
+        console.log('New user document created with default role');
+      } else {
+        console.log('Existing user logged in');
+      }
+
       navigate('/'); // Redirects to home after successful login
       console.log('Login successful');
     } catch (error) {

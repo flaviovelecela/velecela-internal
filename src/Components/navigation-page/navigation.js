@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext';
-import { signOut } from 'firebase/auth'; // Ensure this import works after fixing Firebase setup
+import { signOut } from 'firebase/auth';
 import { auth } from '../Firebase/firebase-config';
 
 function Navigation() {
-  const { currentUser } = useAuth();
+  const { currentUser, userRoles } = useAuth();  // Use "userRoles" (plural)
 
   const handleSignOut = async () => {
     try {
@@ -25,7 +25,7 @@ function Navigation() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">VELECELA</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,23 +44,32 @@ function Navigation() {
               )}
             </li>
             <li className="nav-item dropdown">
-              <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Dropdown
-              </Link>
-              <ul className="dropdown-menu">
+              </a>
+              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><Link className="dropdown-item" to="#">Action</Link></li>
                 <li><Link className="dropdown-item" to="/calculator">Calculator</Link></li>
-                <li><hr className="dropdown-divider"></hr></li>
+                <li><hr className="dropdown-divider" /></li>
                 <li><Link className="dropdown-item" to="/gallery">Photo Gallery</Link></li>
               </ul>
             </li>
-            <li className="nav-item">
-              <Link className={`nav-link ${!currentUser ? 'disabled' : ''}`} onClick={handleDisabledClick} to="/movies">
-                {currentUser ? 'Movies' : 'Disabled'}
-              </Link>
-            </li>
+
+            {/* Check if user has the "movie" role */}
+            {userRoles?.includes('movie') && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/movies">Movies</Link>
+              </li>
+            )}
+
+            {/* Check if user has the "admin" role */}
+            {userRoles?.includes('admin') && (
+              <li className="nav-item">
+                <Link className="nav-link" to="/admin">Admin Panel</Link>
+              </li>
+            )}
           </ul>
-          <form className="d-flex" role="search">
+          <form className="d-flex">
             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
             <button className="btn btn-outline-success" type="submit">Search</button>
           </form>

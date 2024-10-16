@@ -1,6 +1,7 @@
 import React from 'react';
 import './landing-page.css'; // Assuming this contains all your landing page styles
 import SkydivingSection from '../../Portable_Sections/Skydiving_July_9_2024/SkydivingSection';
+import '../../Portable_Sections/Skydiving_July_9_2024/SkydivingSection.css'
 
 function LandingPage() {
     return (

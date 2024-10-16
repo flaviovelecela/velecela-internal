@@ -1,62 +1,110 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { db } from '../../Firebase/firebase-config';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import styles from './photo-gallery.module.css';
-
-const photos = [
-  { id: 1, src: '/tx-buffalo-1.jpg', title: 'Eating buffalo - Texas', description: 'Buffalo grazing in a lush, green field' },
-  { id: 2, src: '/tx-mountain-1.jpg', title: 'Photo 2', description: 'Description for Photo 2' },
-  { id: 3, src: '/tx-mountain-2.jpg', title: 'Photo 3', description: 'Description for Photo 3' },
-  // Add more photos here
-];
+import { collection, getDocs, query, orderBy, doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { useAuth } from '../../Context/AuthContext';
+import PhotoUploader from './PhotoUploader';
+import EditPhotoForm from './EditPhotoForm'; // You'll need to create this component
 
 function PhotoGallery() {
+  const [photos, setPhotos] = useState([]);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [editingPhoto, setEditingPhoto] = useState(null);
+  const { userRoles } = useAuth();  // Use userRoles (plural) instead of userRole
 
-  const handlePhotoClick = (photo) => {
-    setSelectedPhoto(photo);
+  useEffect(() => {
+    fetchPhotos();
+  }, []);
+
+  const fetchPhotos = async () => {
+    const photosCollection = collection(db, 'photos');
+    const q = query(photosCollection, orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(q);
+    const photoList = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+    setPhotos(photoList);
   };
 
-  const handleCloseModal = () => {
-    setSelectedPhoto(null);
+  const handleEdit = (photo) => {
+    setEditingPhoto(photo);
+  };
+
+  const handleDelete = async (photo) => {
+    if (window.confirm('Are you sure you want to delete this photo?')) {
+      try {
+        // Delete from Firestore
+        await deleteDoc(doc(db, 'photos', photo.id));
+
+        // If you have an API for deleting files on the server, use this:
+        const response = await fetch('/api/delete-photo', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ filePath: photo.src }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to delete photo from server');
+        }
+
+        // Refresh the photo list
+        fetchPhotos();
+      } catch (error) {
+        console.error('Error deleting photo:', error);
+        alert('Failed to delete photo. Please try again.');
+      }
+    }
+  };
+
+  const handleUpdatePhoto = async (updatedPhoto) => {
+    try {
+      await updateDoc(doc(db, 'photos', updatedPhoto.id), {
+        title: updatedPhoto.title,
+        description: updatedPhoto.description,
+      });
+      setEditingPhoto(null);
+      fetchPhotos();
+    } catch (error) {
+      console.error('Error updating photo:', error);
+      alert('Failed to update photo. Please try again.');
+    }
   };
 
   return (
     <div className="container">
-      <div className={`row ${selectedPhoto ? styles.blurBackground : ''}`}>
+      {/* Show uploader if the user has "contributor" or "admin" roles */}
+      {userRoles?.includes('contributor') || userRoles?.includes('admin') ? (
+        <PhotoUploader onPhotoUploaded={fetchPhotos} />
+      ) : null}
+
+      <div className="row">
         {photos.map(photo => (
           <div className="col-md-4" key={photo.id}>
-            <img
-              src={photo.src}
-              alt={photo.title}
-              className={`img-thumbnail ${styles.imgThumbnail}`}
-              onClick={() => handlePhotoClick(photo)}
-            />
+            <img src={photo.src} alt={photo.title} className="img-thumbnail" />
+            <h5>{photo.title}</h5>
+            <p>{photo.description}</p>
+            {/* Show edit/delete options if the user has "contributor" or "admin" roles */}
+            {userRoles?.includes('contributor') || userRoles?.includes('admin') ? (
+              <div>
+                <button onClick={() => handleEdit(photo)}>Edit</button>
+                <button onClick={() => handleDelete(photo)}>Delete</button>
+              </div>
+            ) : null}
           </div>
         ))}
       </div>
 
-      {selectedPhoto && (
-        <>
-          <div className={styles.modalBackdrop}></div>
-          <div className={`modal show ${styles.modal}`} style={{ display: 'block' }} tabIndex="-1">
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title">{selectedPhoto.title}</h5>
-                  <button type="button" className="btn-close" onClick={handleCloseModal}></button>
-                </div>
-                <div className="modal-body text-center">
-                  <img src={selectedPhoto.src} alt={selectedPhoto.title} className="img-fluid" />
-                  <p>{selectedPhoto.description}</p>
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" onClick={handleCloseModal}>Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
+      {/* Render the Edit Photo Form if a photo is being edited */}
+      {editingPhoto && (
+        <EditPhotoForm
+          photo={editingPhoto}
+          onUpdate={handleUpdatePhoto}
+          onCancel={() => setEditingPhoto(null)}
+        />
       )}
     </div>
   );
